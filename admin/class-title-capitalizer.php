@@ -91,17 +91,21 @@ class TitleCapitalizer {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param    integer    $post_id    The ID of the post being processed and saved.
+	 * @param    array      $data       The sanitized post data
+	 * @param    array      $arr_post	The raw post data
+	 * @return   array      $data       The sanitized post data with properly capitalized elements
 	 */
-	public function title_caps_post_content( $post_id ) {
+	public function capitalize_post_content( $data, $arr_post ) {
 
-		if ( ! $this->should_save( $post_id ) ) {
+		print_r( $data );
+		echo "<hr />";
+		print_r( $arr_post );
+		die;
+		if ( ! $this->should_save( $arr_post['post_ID'] ) ) {
 			return;
 		}
 
-		$post = get_post( $post_id );
-		$content = apply_filters( 'the_content', $post->post_content );
-
+		$content = $data['post_content'];
 		for ( $i = 1; $i <= 6; $i++ ) {
 
 			$regex = "#(<h$i>)(.*)(</h$i>)#i";
@@ -112,14 +116,11 @@ class TitleCapitalizer {
 				$content = str_ireplace( $matches[ $j ], $this->title_case->toTitleCase( $matches[ $j ] ), $content );
 			}
 
-			$post = array(
-				'ID'           => $post_id,
-				'post_content' => $content
-			);
-
-			$this->update_post( $post, 'title_caps_post_content' );
-
 		}
+
+		$data['post_content'] = $content;
+
+		return $data;
 
 	}
 

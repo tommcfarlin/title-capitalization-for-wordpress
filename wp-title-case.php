@@ -18,7 +18,7 @@
  * Plugin Name:       Title Capitalization For WordPress
  * Plugin URI:        http://tommcfarlin.com/title-capitalization-for-wordpress/
  * Description:       Converts post and page titles and post content headings into poroper capitalization.
- * Version:           1.0.0
+ * Version:           1.0.2
  * Author:            Tom McFarlin
  * Author URI:        http://tommcfarlin.com/
  * License:           GPL-2.0+

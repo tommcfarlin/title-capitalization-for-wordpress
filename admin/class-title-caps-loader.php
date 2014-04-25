@@ -34,7 +34,7 @@ class TitleCapsLoader {
 	public function init( $title_capitalizer ) {
 
 		add_action( 'save_post', array( $title_capitalizer, 'title_caps_post_title' ) );
-		add_action( 'save_post', array( $title_capitalizer, 'title_caps_post_content' ) );
+		add_filter( 'wp_insert_post_data', array( $title_capitalizer, 'capitalize_post_content' ), '99', 2 );
 
 	}
 
