@@ -97,10 +97,6 @@ class TitleCapitalizer {
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
 
-		print_r( $data );
-		echo "<hr />";
-		print_r( $arr_post );
-		die;
 		if ( ! $this->should_save( $arr_post['post_ID'] ) ) {
 			return;
 		}
