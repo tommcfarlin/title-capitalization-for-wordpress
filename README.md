@@ -3,7 +3,7 @@
 * Tags: posts
 * Requires at least: 3.9.0
 * Tested up to: 3.9.0
-* Stable tag: 1.0.0
+* Stable tag: 1.1.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,13 +27,13 @@ The plugin will fire whenever you manually save a draft, publish a post, or upda
 
 ### Using FTP
 
-1. Extract `title-capitalization-for-wordpress.zipp` to your computer
+1. Extract `title-capitalization-for-wordpress.zip` to your computer
 2. Upload the `title-capitalization-for-wordpress.zip` directory to your `wp-content/plugins` directory
 3. Activate the plugin on the WordPress Plugins Dashboard
 
 ## ChangeLog
 
-See [ChangeLog.md](https://github.com/tommcfarlin/title-capitalization-for-wordpress/blob/master/ChangeLog.md).
+See [CHANGES.md](CHANGES.md).
 
 ## Credits
 
