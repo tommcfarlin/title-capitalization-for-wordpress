@@ -2,10 +2,11 @@
 /**
  * Properly capitalizes titles and headers
  *
- * @link    http://tommcfarlin.com/title-capitalization-for-wordpress/
- * @since   1.0.0
- *
- * @package TitleCaps/admin
+ * @package   TitleCapitalizer
+ * @author    Tom McFarlin <tom@tommcfarlin.com>
+ * @license   GPL-2.0+
+ * @link      http://tommcfarlin.com/title-capitalization-for-wordpress/
+ * @copyright 2014 Tom McFarlin
  */
 
 /**
@@ -22,30 +23,24 @@
  * the title and the content, updating the post, then rehooking the action to resume
  * the rest of the execution.
  *
- * @package   TitleCaps/admin
+ * @package   TitleCapitalizer
  * @author    Tom McFarlin <tom@tommcfarlin.com>
- * @license   GPL-2.0+
- * @link      http://tommcfarlin.com/title-capitalization-for-wordpress/
- * @copyright 2014 Tom McFarlin
  */
-class TitleCapitalizer {
+class Title_Capitalizer {
 
 	/**
 	 * Reference to the library responsible for capitalizing its input.
 	 *
-	 * @var    TitleCase
-	 * @access protected
-	 * @since  1.0.0
+	 * @var TitleCase
 	 */
 	protected $title_case;
 
 	/**
 	 * Define a reference to the third-party library for processing the post title and post content.
 	 *
-	 * @param    TitleCase    $title_case    The third-party library that correctly capitalizes a given string.
-	 * @since    1.0.0
+	 * @param  TitleCase  $title_case  The third-party library that correctly capitalizes a given string.
 	 */
-	public function __construct( $title_case ) {
+	public function __construct( TitleCase $title_case ) {
 		$this->title_case = $title_case;
 	}
 
@@ -56,13 +51,11 @@ class TitleCapitalizer {
 	 * post ID to retrieve the post title for capitalization, then updates
 	 * the post.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param    integer    $post_id    The ID of the post being processed and saved.
+	 * @param  integer  $post_id  The ID of the post being processed and saved.
 	 */
-	public function title_caps_post_title( $post_id ) {
+	public function capitalize_post_title( $post_id ) {
 
-		if ( ! $this->should_save( $post_id ) ) {
+		if ( ! $this->should_save_post( $post_id ) ) {
 			return;
 		}
 
@@ -71,7 +64,7 @@ class TitleCapitalizer {
 			'post_title' => $this->title_case->toTitleCase( get_the_title( $post_id ) )
 		);
 
-		$this->update_post( $post, 'title_caps_post_title' );
+		$this->update_post( $post, 'capitalize_post_title' );
 
 	}
 
@@ -89,15 +82,13 @@ class TitleCapitalizer {
 	 *
 	 * Once all processing is done, the post is updated and saved.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param    array      $data       The sanitized post data
-	 * @param    array      $arr_post	The raw post data
-	 * @return   array      $data       The sanitized post data with properly capitalized elements
+	 * @param   array  $data       The sanitized post data
+	 * @param   array  $arr_post   The raw post data
+	 * @return  array  $data       The sanitized post data with properly capitalized elements
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
 
-		if ( ! $this->should_save( $arr_post['post_ID'] ) ) {
+		if ( isset( $arr_post['post_ID'] ) && ! $this->should_save_post( $arr_post['post_ID'] ) ) {
 			return;
 		}
 
@@ -108,7 +99,7 @@ class TitleCapitalizer {
 			preg_match_all( $regex, $content, $matches );
 			$matches = $matches[0];
 
-			for ( $j = 0; $j < count( $matches ); $j++ ) {
+			for ( $j = 0, $l = count( $matches ); $j < $l; $j++ ) {
 				$content = str_ireplace( $matches[ $j ], $this->title_case->toTitleCase( $matches[ $j ] ), $content );
 			}
 
@@ -123,16 +114,13 @@ class TitleCapitalizer {
 	/**
 	 * Determine whether or not the post should be saved.
 	 *
-	 * Check to see if the action being called is a post revision or post autosave,
-	 * then return true if the save action was triggered by the user.
+	 * Check to see if the action being called is a post revision or post autosave. If so,
+	 * then return false. Only permit a save if the user has initiated the save action.
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 *
-	 * @param    integer    $post_id    The ID of the post being processed
- 	 * @return   bool                   True if the post should be saved; false, if this is a revision or autosave.
+	 * @param   integer  $post_id  The ID of the post being processed
+ 	 * @return  bool               True if the post should be saved; false, if this is a revision or autosave
 	 */
-	private function should_save( $post_id ) {
+	protected function should_save_post( $post_id ) {
 		return ! ( wp_is_post_revision( $post_id ) && wp_is_post_autosave( $post_id ) );
 	}
 
@@ -143,16 +131,13 @@ class TitleCapitalizer {
 	 * update the post, then reinstate the save_post action for the
 	 * specified action.
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 *
-	 * @param    WP_Post    $post         The instance of WP_Post the is meant to be updated
- 	 * @param    string     $func_name    The name of the function calling this function.
+	 * @param  array    $post         The array of the is post data to be updated.
+ 	 * @param  string   $func_name    The name of the function calling this function.
 	 */
-	private function update_post( $post, $func_name ) {
+	protected function update_post( $arr_post, $func_name ) {
 
 		remove_action( 'save_post', array( $this, $func_name ) );
-		wp_update_post( $post );
+		wp_update_post( $arr_post );
 		add_action( 'save_post', array( $this, $func_name ) );
 
 	}
