@@ -1,5 +1,10 @@
 ### ChangeLog for Title Capitalization for WordPress
 
+#### 1.1.1 / 2014-05-04
+
+* Fixing a problem with the core plugin file that was not showing updates from the GitHub Updater
+* May the Fourth be with you!
+
 #### 1.1.0 / 2014-05-02
 
 * Adding a Text Domain and the `languages` directory
