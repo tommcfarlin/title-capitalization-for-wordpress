@@ -1,8 +1,9 @@
 ### ChangeLog for Title Capitalization for WordPress
 
-#### 1.1.1 / 2014-05-04
+#### 1.1.2 / 2014-05-04
 
 * Fixing a problem with the core plugin file that was not showing updates from the GitHub Updater
+* Updating the stable version in README.md
 * May the Fourth be with you!
 
 #### 1.1.0 / 2014-05-02
