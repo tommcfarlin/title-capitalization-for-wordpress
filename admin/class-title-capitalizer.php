@@ -92,12 +92,21 @@ class Title_Capitalizer {
 			return;
 		}
 
-		$content = $data['post_content'];
+		$content    = isset( $data['post_content_filtered'] ) ? $data['post_content_filtered'] : $data['post_content'];
+		$md_matches = false;
+
 		for ( $i = 1; $i <= 6; $i++ ) {
 
 			$regex = "#(<h$i>)(.*)(</h$i>)#i";
 			preg_match_all( $regex, $content, $matches );
 			$matches = $matches[0];
+
+			if ( empty( $matches ) && ! $md_matches ) {
+				$regex = "/#(.*)(\r|\n)/i";
+				preg_match_all( $regex, $content, $matches );
+				$matches = $matches[0];
+				$md_matches = true;
+			}
 
 			for ( $j = 0, $l = count( $matches ); $j < $l; $j++ ) {
 				$content = str_ireplace( $matches[ $j ], $this->title_case->toTitleCase( $matches[ $j ] ), $content );
