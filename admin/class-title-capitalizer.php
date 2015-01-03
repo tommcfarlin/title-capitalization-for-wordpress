@@ -99,22 +99,29 @@ class Title_Capitalizer {
 
 			$regex = "#(<h$i>)(.*)(</h$i>)#i";
 			preg_match_all( $regex, $content, $matches );
-			$matches = $matches[0];
+			$matches_html = $matches[0];
 
-			if ( empty( $matches ) && ! $md_matches ) {
+			if ( empty( $matches_html ) && ! $md_matches ) {
 				$regex = "/#(.*)(\r|\n)/i";
-				preg_match_all( $regex, $content, $matches );
-				$matches = $matches[0];
+				preg_match_all( $regex, $content_filtered, $matches );
+				$matches_md = $matches[0];
 				$md_matches = true;
 			}
 
-			for ( $j = 0, $l = count( $matches ); $j < $l; $j++ ) {
-				$content = str_ireplace( $matches[ $j ], $this->title_case->toTitleCase( $matches[ $j ] ), $content );
+			for ( $j = 0, $l = count( $matches_html ); $j < $l; $j++ ) {
+				$content          = str_ireplace( $matches_html[ $j ], $this->title_case->toTitleCase( $matches_html[ $j ] ), $content );
+				$content_filtered = str_ireplace( $matches_html[ $j ], $this->title_case->toTitleCase( $matches_html[ $j ] ), $content_filtered );
+			}
+
+			for ( $j = 0, $l = count( $matches_md ); $j < $l; $j++ ) {
+				$content_filtered = str_ireplace( $matches_md[ $j ], $this->title_case->toTitleCase( $matches_md[ $j ] ), $content_filtered );
+
 			}
 
 		}
 
-		$data['post_content'] = $content;
+		$data['post_content_filtered'] = $content_filtered;
+		$data['post_content']          = $content;
 
 		return $data;
 
