@@ -103,7 +103,7 @@ class Title_Capitalizer {
 
 		// When $data and $arr_post disagree use $arr_post
 		if ( ! empty( $arr_post['post_content_filtered'] ) &&
-		     $arr_post['post_content_filtered'] != $content_filtered ||
+		     $arr_post['post_content_filtered'] != $data['post_content_filtered'] ||
 		     isset( $_POST['content'] ) && ( $_POST['content'] === $arr_post['post_content_filtered'] )
 		) {
 			$content_filtered = $arr_post['post_content_filtered'];
