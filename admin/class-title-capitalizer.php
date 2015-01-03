@@ -84,16 +84,35 @@ class Title_Capitalizer {
 	 *
 	 * @param   array  $data       The sanitized post data
 	 * @param   array  $arr_post   The raw post data
-	 * @return  array  $data       The sanitized post data with properly capitalized elements
+	 * @return  bool|array  $data       The sanitized post data with properly capitalized elements
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
 
 		if ( isset( $arr_post['post_ID'] ) && ! $this->should_save_post( $arr_post['post_ID'] ) ) {
-			return;
+			return false;
 		}
 
-		$content    = isset( $data['post_content_filtered'] ) ? $data['post_content_filtered'] : $data['post_content'];
-		$md_matches = false;
+		$content          = $data['post_content'];
+		$content_filtered = null;
+		$md_matches       = false;
+
+		// Start by getting from $data
+		if ( ! empty( $data['post_content_filtered'] ) ) {
+			$content_filtered = $data['post_content_filtered'];
+		}
+
+		// When $data and $arr_post disagree use $arr_post
+		if ( ! empty( $arr_post['post_content_filtered'] ) &&
+		     $arr_post['post_content_filtered'] != $content_filtered ||
+		     isset( $_POST['content'] ) && ( $_POST['content'] === $arr_post['post_content_filtered'] )
+		) {
+			$content_filtered = $arr_post['post_content_filtered'];
+		}
+
+		// Use $data when $_POST and $data are same, like when updating
+		if ( isset( $_POST['content'] ) && ( $_POST['content'] === $data['post_content_filtered'] ) ) {
+			$content_filtered = $data['post_content_filtered'];
+		}
 
 		for ( $i = 1; $i <= 6; $i++ ) {
 
