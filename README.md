@@ -2,8 +2,8 @@
 * Contributors: [tommcfarlin](http://tommcfarlin.com/)
 * Tags: posts
 * Requires at least: 3.9.0
-* Tested up to: 3.9.0
-* Stable tag: 1.1.2
+* Tested up to: 4.1
+* Stable tag: 1.1.3
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,8 @@ Properly capitalizes post titles and heading elements in the post content.
 
 Title Capitalization for WordPress provide proper capitalization for your post titles
 and heading elements (that is, `h1`, ..., `h6` in your post content).
+
+Works with Markdown header markup.
 
 The plugin will fire whenever you manually save a draft, publish a post, or update a post.
 

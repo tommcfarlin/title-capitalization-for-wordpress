@@ -1,5 +1,10 @@
 ### ChangeLog for Title Capitalization for WordPress
 
+#### 1.1.3 / 2015-01-02
+
+* Updated to work with Markdown markup for headers and leaves markdown markup intact
+* Fix for [JetPack Markdown](https://github.com/tommcfarlin/title-capitalization-for-wordpress/issues/5)
+
 #### 1.1.2 / 2014-05-04
 
 * Fixing a problem with the core plugin file that was not showing updates from the GitHub Updater

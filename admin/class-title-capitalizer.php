@@ -84,28 +84,63 @@ class Title_Capitalizer {
 	 *
 	 * @param   array  $data       The sanitized post data
 	 * @param   array  $arr_post   The raw post data
-	 * @return  array  $data       The sanitized post data with properly capitalized elements
+	 * @return  bool|array  $data       The sanitized post data with properly capitalized elements
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
 
 		if ( isset( $arr_post['post_ID'] ) && ! $this->should_save_post( $arr_post['post_ID'] ) ) {
-			return;
+			return false;
 		}
 
-		$content = $data['post_content'];
+		$content          = $data['post_content'];
+		$content_filtered = null;
+		$md_matches       = false;
+
+		// Start by getting from $data
+		if ( ! empty( $data['post_content_filtered'] ) ) {
+			$content_filtered = $data['post_content_filtered'];
+		}
+
+		// When $data and $arr_post disagree use $arr_post
+		if ( ! empty( $arr_post['post_content_filtered'] ) &&
+		     $arr_post['post_content_filtered'] != $data['post_content_filtered'] ||
+		     isset( $_POST['content'] ) && ( $_POST['content'] === $arr_post['post_content_filtered'] )
+		) {
+			$content_filtered = $arr_post['post_content_filtered'];
+		}
+
+		// Use $data when $_POST and $data are same, like when updating
+		if ( isset( $_POST['content'] ) && ( $_POST['content'] === $data['post_content_filtered'] ) ) {
+			$content_filtered = $data['post_content_filtered'];
+		}
+
 		for ( $i = 1; $i <= 6; $i++ ) {
 
 			$regex = "#(<h$i>)(.*)(</h$i>)#i";
 			preg_match_all( $regex, $content, $matches );
-			$matches = $matches[0];
+			$matches_html = $matches[0];
 
-			for ( $j = 0, $l = count( $matches ); $j < $l; $j++ ) {
-				$content = str_ireplace( $matches[ $j ], $this->title_case->toTitleCase( $matches[ $j ] ), $content );
+			if ( empty( $matches_html ) && ! $md_matches ) {
+				$regex = "/#(.*)(\r|\n)/i";
+				preg_match_all( $regex, $content_filtered, $matches );
+				$matches_md = $matches[0];
+				$md_matches = true;
+			}
+
+			for ( $j = 0, $l = count( $matches_html ); $j < $l; $j++ ) {
+				$content          = str_ireplace( $matches_html[ $j ], $this->title_case->toTitleCase( $matches_html[ $j ] ), $content );
+				$content_filtered = str_ireplace( $matches_html[ $j ], $this->title_case->toTitleCase( $matches_html[ $j ] ), $content_filtered );
+			}
+
+			for ( $j = 0, $l = count( $matches_md ); $j < $l; $j++ ) {
+				$content_filtered = str_ireplace( $matches_md[ $j ], $this->title_case->toTitleCase( $matches_md[ $j ] ), $content_filtered );
+
 			}
 
 		}
 
-		$data['post_content'] = $content;
+		$data['post_content_filtered'] = $content_filtered;
+		$data['post_content']          = $content;
 
 		return $data;
 
