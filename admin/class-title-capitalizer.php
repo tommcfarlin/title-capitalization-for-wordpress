@@ -82,8 +82,8 @@ class Title_Capitalizer {
 	 *
 	 * Once all processing is done, the post is updated and saved.
 	 *
-	 * @param   array  $data       The sanitized post data
-	 * @param   array  $arr_post   The raw post data
+	 * @param   array       $data       The sanitized post data
+	 * @param   array       $arr_post   The raw post data
 	 * @return  bool|array  $data       The sanitized post data with properly capitalized elements
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
@@ -94,7 +94,7 @@ class Title_Capitalizer {
 
 		$content          = $data['post_content'];
 		$content_filtered = null;
-		$md_matches       = false;
+		$header_matches   = array();
 
 		// Start by getting from $data
 		if ( ! empty( $data['post_content_filtered'] ) ) {
@@ -114,33 +114,27 @@ class Title_Capitalizer {
 			$content_filtered = $data['post_content_filtered'];
 		}
 
+		// Get h1 to h6 headers
 		for ( $i = 1; $i <= 6; $i++ ) {
-
 			$regex = "#(<h$i>)(.*)(</h$i>)#i";
 			preg_match_all( $regex, $content, $matches );
-			$matches_html = $matches[0];
-
-			if ( empty( $matches_html ) && ! $md_matches ) {
-				$regex = "/#(.*)(\r|\n)/i";
-				preg_match_all( $regex, $content_filtered, $matches );
-				$matches_md = $matches[0];
-				$md_matches = true;
+			if ( ! empty( $matches[0] ) ) {
+				$header_matches = array_merge( $header_matches, $matches[0] );
 			}
-
-			for ( $j = 0, $l = count( $matches_html ); $j < $l; $j++ ) {
-				$content          = str_ireplace( $matches_html[ $j ], $this->title_case->toTitleCase( $matches_html[ $j ] ), $content );
-				$content_filtered = str_ireplace( $matches_html[ $j ], $this->title_case->toTitleCase( $matches_html[ $j ] ), $content_filtered );
-			}
-
-			for ( $j = 0, $l = count( $matches_md ); $j < $l; $j++ ) {
-				$content_filtered = str_ireplace( $matches_md[ $j ], $this->title_case->toTitleCase( $matches_md[ $j ] ), $content_filtered );
-
-			}
-
 		}
 
-		$data['post_content_filtered'] = $content_filtered;
+		// Get Markdown markup headers
+		$regex = "/#(.*)(\r|\n)/i";
+		preg_match_all( $regex, $content_filtered, $matches );
+		$header_matches = array_merge( $header_matches, $matches[0] );
+
+		foreach ( $header_matches as $matched ) {
+			$content          = str_ireplace( $matched, $this->title_case->toTitleCase( $matched ), $content );
+			$content_filtered = str_ireplace( $matched, $this->title_case->toTitleCase( $matched ), $content_filtered );
+		}
+
 		$data['post_content']          = $content;
+		$data['post_content_filtered'] = $content_filtered;
 
 		return $data;
 
