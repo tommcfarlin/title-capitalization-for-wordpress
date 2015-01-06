@@ -82,8 +82,8 @@ class Title_Capitalizer {
 	 *
 	 * Once all processing is done, the post is updated and saved.
 	 *
-	 * @param   array  $data       The sanitized post data
-	 * @param   array  $arr_post   The raw post data
+	 * @param   array       $data       The sanitized post data
+	 * @param   array       $arr_post   The raw post data
 	 * @return  bool|array  $data       The sanitized post data with properly capitalized elements
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
