@@ -133,8 +133,8 @@ class Title_Capitalizer {
 			$content_filtered = str_ireplace( $matched, $this->title_case->toTitleCase( $matched ), $content_filtered );
 		}
 
-		$data['post_content_filtered'] = $content_filtered;
 		$data['post_content']          = $content;
+		$data['post_content_filtered'] = $content_filtered;
 
 		return $data;
 
