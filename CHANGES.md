@@ -1,5 +1,3 @@
-### ChangeLog for Title Capitalization for WordPress
-
 #### 1.1.3 / 2015-01-02
 
 * Updated to work with Markdown markup for headers and leaves markdown markup intact

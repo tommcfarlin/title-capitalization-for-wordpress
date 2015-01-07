@@ -115,16 +115,12 @@ class Title_Capitalizer {
 		}
 
 		// Get h1 to h6 headers
-		for ( $i = 1; $i <= 6; $i++ ) {
-			$regex = "#(<h$i>)(.*)(</h$i>)#i";
-			preg_match_all( $regex, $content, $matches );
-			if ( ! empty( $matches[0] ) ) {
-				$header_matches = array_merge( $header_matches, $matches[0] );
-			}
-		}
+		$regex = "#<h([1-6])>(.*)</h\\1>#i";
+		preg_match_all( $regex, $content, $matches );
+		$header_matches = array_merge( $header_matches, $matches[0] );
 
 		// Get Markdown markup headers
-		$regex = "/#(.*)(\r|\n)/i";
+		$regex = "/(?<!\\S)(?:^)#(.*)(\r|\n)/m";
 		preg_match_all( $regex, $content_filtered, $matches );
 		$header_matches = array_merge( $header_matches, $matches[0] );
 
