@@ -25,6 +25,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
  * Text Domain:       title-capitalization-for-wordpress
+ * Network:           false
  * GitHub Plugin URI: tommcfarlin/title-capitalization-for-wordpress
  * GitHub Branch:     master
  */
