@@ -1,3 +1,8 @@
+#### 1.1.4 / 2015-07-06
+
+* Fixing a problem in `class TitleCase` so letters following apostrophes aren't capitalized. [Issue #5](https://github.com/tommcfarlin/title-capitalization-for-wordpress/issues/11)
+* Adding header `Network: false` as the plugin doesn't like being Network Activated. This doesn't prevent Network Activation. :P
+
 #### 1.1.3 / 2015-01-02
 
 * Updated to work with Markdown markup for headers and leaves markdown markup intact
