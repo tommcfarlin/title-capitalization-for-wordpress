@@ -1,3 +1,8 @@
+#### 1.1.5 / 2016-04-02
+
+* Added a note about WordPress compatibility and a new version of this plugin
+that's in development.
+
 #### 1.1.4 / 2015-07-06
 
 * Fixing a problem in `class TitleCase` so letters following apostrophes aren't capitalized. [Issue #5](https://github.com/tommcfarlin/title-capitalization-for-wordpress/issues/11)
