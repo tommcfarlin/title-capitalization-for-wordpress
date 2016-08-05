@@ -31,13 +31,9 @@ class Title_Capitalizer_Loader {
 	public function run( Title_Capitalizer $title_capitalizer ) {
 
 		// Fixes issue when new post
-		if ( isset( $_GET['post'] ) ) {
-			$new_post = get_post( $_GET['post'] );
-		} elseif ( isset( $_POST['post_ID'] ) ) {
-			$new_post = get_post( $_POST['post_ID'] );
-		}
+		$new_post = isset( $_GET['post'] ) ? get_post( $_GET['post'] ) : false;
+		$new_post = isset( $_POST['post_ID'] ) ? get_post( $_POST['post_ID'] ) : $new_post;
 		$new_post = empty( $new_post ) ? true : false;
-
 
 		add_action( 'save_post', array( $title_capitalizer, 'capitalize_post_title' ) );
 		if ( ! $new_post ) {
