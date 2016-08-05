@@ -39,7 +39,7 @@ if ( ! defined( 'WPINC' ) ) {
 if ( is_admin() ) {
 
 	/**
-	 * Load the Title Case Library (if it has not already been loaded0
+	 * Load the Title Case Library (if it has not already been loaded)
 	 */
 	if ( ! class_exists( 'TitleCase' ) ) {
 		require_once( plugin_dir_path( __FILE__ ) . 'includes/vendor/class-title-case.php' );
