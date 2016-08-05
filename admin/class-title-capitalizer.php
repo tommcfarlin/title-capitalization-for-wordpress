@@ -38,7 +38,7 @@ class Title_Capitalizer {
 	/**
 	 * Define a reference to the third-party library for processing the post title and post content.
 	 *
-	 * @param  TitleCase  $title_case  The third-party library that correctly capitalizes a given string.
+	 * @param  TitleCase $title_case The third-party library that correctly capitalizes a given string.
 	 */
 	public function __construct( TitleCase $title_case ) {
 		$this->title_case = $title_case;
@@ -51,7 +51,7 @@ class Title_Capitalizer {
 	 * post ID to retrieve the post title for capitalization, then updates
 	 * the post.
 	 *
-	 * @param  integer  $post_id  The ID of the post being processed and saved.
+	 * @param  integer $post_id The ID of the post being processed and saved.
 	 */
 	public function capitalize_post_title( $post_id ) {
 
@@ -61,7 +61,7 @@ class Title_Capitalizer {
 
 		$post = array(
 			'ID'         => $post_id,
-			'post_title' => $this->title_case->toTitleCase( get_the_title( $post_id ) )
+			'post_title' => $this->title_case->toTitleCase( get_the_title( $post_id ) ),
 		);
 
 		$this->update_post( $post, 'capitalize_post_title' );
@@ -82,8 +82,9 @@ class Title_Capitalizer {
 	 *
 	 * Once all processing is done, the post is updated and saved.
 	 *
-	 * @param   array       $data       The sanitized post data
-	 * @param   array       $arr_post   The raw post data
+	 * @param   array $data     The sanitized post data
+	 * @param   array $arr_post The raw post data
+	 *
 	 * @return  bool|array  $data       The sanitized post data with properly capitalized elements
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
@@ -142,8 +143,9 @@ class Title_Capitalizer {
 	 * Check to see if the action being called is a post revision or post autosave. If so,
 	 * then return false. Only permit a save if the user has initiated the save action.
 	 *
-	 * @param   integer  $post_id  The ID of the post being processed
- 	 * @return  bool               True if the post should be saved; false, if this is a revision or autosave
+	 * @param   integer $post_id The ID of the post being processed
+	 *
+	 * @return  bool               True if the post should be saved; false, if this is a revision or autosave
 	 */
 	protected function should_save_post( $post_id ) {
 		return ! ( wp_is_post_revision( $post_id ) && wp_is_post_autosave( $post_id ) );
@@ -156,8 +158,8 @@ class Title_Capitalizer {
 	 * update the post, then reinstate the save_post action for the
 	 * specified action.
 	 *
-	 * @param  array    $post         The array of the is post data to be updated.
- 	 * @param  string   $func_name    The name of the function calling this function.
+	 * @param  array  $arr_post      The array of the is post data to be updated.
+	 * @param  string $func_name The name of the function calling this function.
 	 */
 	protected function update_post( $arr_post, $func_name ) {
 
