@@ -158,7 +158,7 @@ class Title_Capitalizer {
 	 * update the post, then reinstate the save_post action for the
 	 * specified action.
 	 *
-	 * @param  array  $arr_post      The array of the is post data to be updated.
+	 * @param  array  $arr_post  The array of the is post data to be updated.
 	 * @param  string $func_name The name of the function calling this function.
 	 */
 	protected function update_post( $arr_post, $func_name ) {
