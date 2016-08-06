@@ -116,7 +116,7 @@ class Title_Capitalizer {
 		}
 
 		// Get h1 to h6 headers
-		$regex = "#<h([1-6])>(.*)</h\\1>#i";
+		$regex = "#<h([1-6])(.*)>(.*)</h\\1>#i";
 		preg_match_all( $regex, $content, $matches );
 		$header_matches = array_merge( $header_matches, $matches[0] );
 
