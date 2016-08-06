@@ -123,6 +123,9 @@ class Title_Capitalizer {
 		// Get Markdown markup headers
 		$regex = "/(?<!\\S)(?:^)#(.*)(\r|\n)?/m";
 		preg_match_all( $regex, $content, $matches );
+		if ( empty( $matches[0] ) ) {
+			preg_match_all( $regex, $content_filtered, $matches );
+		}
 		$header_matches = array_merge( $header_matches, $matches[0] );
 
 		foreach ( $header_matches as $matched ) {
