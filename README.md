@@ -1,15 +1,11 @@
 # Title Capitalization For WordPress
-* Contributors: [tommcfarlin](http://tommcfarlin.com/)
+* Contributors: [tommcfarlin](http://tommcfarlin.com/), [afragen](https://github.com/afragen/)
 * Tags: posts
 * Requires at least: 3.9.0
-* Tested up to: 4.1
-* Stable tag: 1.1.5
+* Tested up to: 4.6
+* Stable tag: 1.2.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-*Note*: This plugin is not compatible with the most recent version of WordPress.
-A new, updated version of this plugin is in development. This repository will be
-updated once the new version of the plugin has been released.
 
 Properly capitalizes post titles and heading elements in the post content.
 

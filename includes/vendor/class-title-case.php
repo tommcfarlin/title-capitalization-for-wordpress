@@ -26,7 +26,7 @@ class TitleCase {
 			//(never on the first word, and never if preceded by a colon)
 			$m = $i>0 && mb_substr ($title, max (0, $i-2), 1, 'UTF-8') !== ':' &&
 				!preg_match ('/[\x{2014}\x{2013}] ?/u', mb_substr ($title, max (0, $i-2), 2, 'UTF-8')) &&
-				 preg_match ('/^(a(nd?|s|t)?|b(ut|y)|en|for|i[fn]|o[fnr]|t(he|o)|vs?\.?|via|\'(s|t|ll))[ \-]/i', $m)
+				 preg_match ('/^(a(nd?|s|t)?|b(ut|y)|en|for|i[fn]|o[fnr]|t(he|o)|vs?\.?|via|\'(s|t|ll|re|ve))[ \-]/i', $m)
 			?	//…and convert them to lowercase
 				mb_strtolower ($m, 'UTF-8')
 

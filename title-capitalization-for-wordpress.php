@@ -18,7 +18,7 @@
  * Plugin Name:       Title Capitalization For WordPress
  * Plugin URI:        http://tommcfarlin.com/title-capitalization-for-wordpress/
  * Description:       Converts post and page titles and post content headings into proper capitalization.
- * Version:           1.1.5
+ * Version:           1.2.0
  * Author:            Tom McFarlin
  * Author URI:        http://tommcfarlin.com/
  * License:           GPL-2.0+
@@ -39,7 +39,7 @@ if ( ! defined( 'WPINC' ) ) {
 if ( is_admin() ) {
 
 	/**
-	 * Load the Title Case Library (if it has not already been loaded0
+	 * Load the Title Case Library (if it has not already been loaded)
 	 */
 	if ( ! class_exists( 'TitleCase' ) ) {
 		require_once( plugin_dir_path( __FILE__ ) . 'includes/vendor/class-title-case.php' );

@@ -1,3 +1,8 @@
+#### 1.2.0 / 2016-08-06
+
+* Fixed to work with WP 4.6
+* Fixed to correctly title case contractions such as _they're_ and _should've
+
 #### 1.1.5 / 2016-04-02
 
 * Added a note about WordPress compatibility and a new version of this plugin

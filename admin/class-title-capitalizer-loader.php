@@ -26,12 +26,19 @@ class Title_Capitalizer_Loader {
 	 * Attach callback functions to the save_post hook that will capitalize the
 	 * post title and all of the headings in the post content.
 	 *
-	 * @param  Title_Capitalizer  $title_capitalizer  A reference to the class that provides proper capitalization.
+	 * @param  Title_Capitalizer $title_capitalizer A reference to the class that provides proper capitalization.
 	 */
 	public function run( Title_Capitalizer $title_capitalizer ) {
 
+		// Fixes issue when new post
+		$new_post = isset( $_GET['post'] ) ? get_post( $_GET['post'] ) : false;
+		$new_post = isset( $_POST['post_ID'] ) ? get_post( $_POST['post_ID'] ) : $new_post;
+		$new_post = empty( $new_post ) ? true : false;
+
 		add_action( 'save_post', array( $title_capitalizer, 'capitalize_post_title' ) );
-		add_filter( 'wp_insert_post_data', array( $title_capitalizer, 'capitalize_post_content' ), '99', 2 );
+		if ( ! $new_post ) {
+			add_filter( 'wp_insert_post_data', array( $title_capitalizer, 'capitalize_post_content' ), 99, 2 );
+		}
 
 	}
 
