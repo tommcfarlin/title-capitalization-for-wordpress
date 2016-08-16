@@ -2,11 +2,11 @@
 /**
  * Properly capitalizes titles and headers
  *
- * @package   TitleCapitalizer
+ * @package   Title_Capitalization
  * @author    Tom McFarlin <tom@tommcfarlin.com>
  * @license   GPL-2.0+
  * @link      http://tommcfarlin.com/title-capitalization-for-wordpress/
- * @copyright 2014 Tom McFarlin
+ * @copyright 2014 - 2016 Tom McFarlin
  */
 
 /**
@@ -23,7 +23,7 @@
  * the title and the content, updating the post, then rehooking the action to resume
  * the rest of the execution.
  *
- * @package   TitleCapitalizer
+ * @package   Title_Capitalization
  * @author    Tom McFarlin <tom@tommcfarlin.com>
  */
 class Title_Capitalizer {
@@ -36,9 +36,11 @@ class Title_Capitalizer {
 	protected $title_case;
 
 	/**
-	 * Define a reference to the third-party library for processing the post title and post content.
+	 * Define a reference to the third-party library for processing the post title
+	 * and post content.
 	 *
-	 * @param  TitleCase $title_case The third-party library that correctly capitalizes a given string.
+	 * @param  TitleCase $title_case The third-party library that correctly
+	 *                               capitalizes a given string.
 	 */
 	public function __construct( TitleCase $title_case ) {
 		$this->title_case = $title_case;
@@ -69,23 +71,25 @@ class Title_Capitalizer {
 	}
 
 	/**
-	 * Capitalize the headings in the post content for the post with the specified post ID.
+	 * Capitalize the headings in the post content for the post with the specified
+	 * post ID.
 	 *
-	 * Check to see if this post should be saved. If so, load the post object and applies
-	 * the the_content filter to the post content.
+	 * Check to see if this post should be saved. If so, load the post object and
+	 * applies the the_content filter to the post content.
 	 *
 	 * Loop over the content six times (looking
-	 * for heading elements 1 through 6) and locate heading elements using a regular expression.
+	 * for heading elements 1 through 6) and locate heading elements using a
+	 * regular expression.
 	 *
-	 * For each of the matches the expression found, replace the content with the properly
-	 * capitalized value.
+	 * For each of the matches the expression found, replace the content with the
+	 * properly capitalized value.
 	 *
 	 * Once all processing is done, the post is updated and saved.
 	 *
-	 * @param   array $data     The sanitized post data
-	 * @param   array $arr_post The raw post data
+	 * @param   array       $data     The sanitized post data
+	 * @param   array       $arr_post The raw post data
 	 *
-	 * @return  bool|array  $data       The sanitized post data with properly capitalized elements
+	 * @return  bool|array  $data The sanitized post data with properly capitalized elements
 	 */
 	public function capitalize_post_content( $data, $arr_post ) {
 
@@ -94,15 +98,51 @@ class Title_Capitalizer {
 		}
 
 		$content          = $data['post_content'];
-		$content_filtered = null;
+		$content_filtered = $this->get_content_filtered( $data, $arr_post );
 		$header_matches   = array();
 
-		// Start by getting from $data
+		$html_headers     = $this->find_html_headings( $content );
+		$markdown_headers = $this->find_markdown_headings( $content, $content_filtered );
+		$header_matches   = array_merge( $html_headers, $markdown_headers );
+
+		foreach ( $header_matches as $matched ) {
+
+			$content = str_ireplace(
+				$matched,
+				$this->title_case->toTitleCase( $matched ),
+				$content
+			);
+
+			$content_filtered = str_ireplace(
+				$matched,
+				$this->title_case->toTitleCase( $matched ),
+				$content_filtered
+			);
+
+		}
+
+		$data['post_content']          = $content;
+		$data['post_content_filtered'] = $content_filtered;
+
+		return $data;
+	}
+
+	/**
+	 * [get_content_filtered description]
+	 * @param  [type] $data     [description]
+	 * @param  [type] $arr_post [description]
+	 * @return [type]           [description]
+	 */
+	protected function get_content_filtered( $data, $arr_post ) {
+
+		$content_filtered = null;
+
+		// Start by getting from $data.
 		if ( ! empty( $data['post_content_filtered'] ) ) {
 			$content_filtered = $data['post_content_filtered'];
 		}
 
-		// When $data and $arr_post disagree use $arr_post
+		// When $data and $arr_post disagree use $arr_post.
 		if ( ! empty( $arr_post['post_content_filtered'] ) &&
 		     $arr_post['post_content_filtered'] != $data['post_content_filtered'] ||
 		     isset( $_POST['content'] ) && ( $_POST['content'] === $arr_post['post_content_filtered'] )
@@ -110,33 +150,44 @@ class Title_Capitalizer {
 			$content_filtered = $arr_post['post_content_filtered'];
 		}
 
-		// Use $data when $_POST and $data are same, like when updating
+		// Use $data when $_POST and $data are same, like when updating.
 		if ( isset( $_POST['content'] ) && ( $_POST['content'] === $data['post_content_filtered'] ) ) {
 			$content_filtered = $data['post_content_filtered'];
 		}
 
-		// Get h1 to h6 headers
+		return $content_filtered;
+
+	}
+
+	/**
+	 * [find_html_headings description]
+	 * @param  [type] $content [description]
+	 * @return [type]          [description]
+	 */
+	protected function find_html_headings( $content ) {
+
 		$regex = "#<h([1-6])(.*)>(.*)</h\\1>#i";
 		preg_match_all( $regex, $content, $matches );
-		$header_matches = array_merge( $header_matches, $matches[0] );
 
-		// Get Markdown markup headers
+		return $matches[0];
+
+	}
+
+	/**
+	 * [find_markdown_headings description]
+	 * @param  [type] $content          [description]
+	 * @param  [type] $content_filtered [description]
+	 * @return [type]                   [description]
+	 */
+	protected function find_markdown_headings( $content, $content_filtered ) {
+
 		$regex = "/(?<!\\S)(?:^)#(.*)(\r|\n)?/m";
 		preg_match_all( $regex, $content, $matches );
 		if ( empty( $matches[0] ) ) {
 			preg_match_all( $regex, $content_filtered, $matches );
 		}
-		$header_matches = array_merge( $header_matches, $matches[0] );
 
-		foreach ( $header_matches as $matched ) {
-			$content          = str_ireplace( $matched, $this->title_case->toTitleCase( $matched ), $content );
-			$content_filtered = str_ireplace( $matched, $this->title_case->toTitleCase( $matched ), $content_filtered );
-		}
-
-		$data['post_content']          = $content;
-		$data['post_content_filtered'] = $content_filtered;
-
-		return $data;
+		return $matches[0];
 
 	}
 
@@ -171,5 +222,4 @@ class Title_Capitalizer {
 		add_action( 'save_post', array( $this, $func_name ) );
 
 	}
-
 }
