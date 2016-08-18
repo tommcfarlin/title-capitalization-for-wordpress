@@ -71,8 +71,8 @@ class Title_Capitalization_Loader {
 				)
 			) : false ;
 
-		/* If the post ID in the POST collection is st, then retrieve the post
-		 * information; otherwise, sue the value previously determined.
+		/* If the post ID in the POST collection is set, then retrieve the post
+		 * information; otherwise, use the value previously determined.
 		 */
 		$is_new_post = isset( $_POST['post_ID'] ) ? // Input var okay.
 			get_post(
