@@ -199,7 +199,8 @@ class Title_Capitalizer {
 	 *
 	 * @param   integer $post_id The ID of the post being processed
 	 *
-	 * @return  bool               True if the post should be saved; false, if this is a revision or autosave
+	 * @return  bool             True if the post should be saved;
+	 *                           False if this is a revision, autosave, adding post, or heartbeat.
 	 */
 	protected function should_save_post( $post_id ) {
 
