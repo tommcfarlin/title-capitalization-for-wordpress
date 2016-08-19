@@ -204,19 +204,29 @@ class Title_Capitalizer {
 	protected function should_save_post( $post_id ) {
 
 		$post            = get_post( $post_id );
-		$not_user_action = ( 'auto-draft' === $post->post_status || ! isset( $_POST['ID'] ) ) ? true : false;
+		$add_post = ( 'auto-draft' === $post->post_status ) ? true : false;
 
 		// 'closedpostboxesnonce' was the only nonce I could consistently find.
-		if ( $not_user_action ||
-		     ( isset( $_POST['closedpostboxesnonce'] ) &&
+		if ( ( isset( $_POST['closedpostboxesnonce'] ) &&
 		       ! wp_verify_nonce( $_POST['closedpostboxesnonce'], 'closedpostboxes' ) ) ||
 		     ( isset( $_POST['_nonce'] ) && ! wp_verify_nonce( $_POST['_nonce'], 'heartbeat-nonce' ) )
 		) {
 			return false;
 		}
 
-		return ! ( wp_is_post_revision( $post_id ) && wp_is_post_autosave( $post_id ) );
+		return ! ( wp_is_post_revision( $post_id ) &&
+		           wp_is_post_autosave( $post_id ) ) &&
+		       ! ( $add_post || $this->is_heartbeat() );
 
+	}
+
+	/**
+	 * Checks to see if a heartbeat is resulting in activity.
+	 *
+	 * @return bool
+	 */
+	protected function is_heartbeat() {
+		return ( isset( $_POST['action'] ) && 'heartbeat' === $_POST['action' ] );
 	}
 
 	/**
