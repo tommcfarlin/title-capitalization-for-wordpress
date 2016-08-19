@@ -203,7 +203,7 @@ class Title_Capitalizer {
 	 */
 	protected function should_save_post( $post_id ) {
 
-		$post            = get_post( $post_id );
+		$post     = get_post( $post_id );
 		$add_post = ( 'auto-draft' === $post->post_status ) ? true : false;
 
 		// 'closedpostboxesnonce' was the only nonce I could consistently find.
@@ -226,7 +226,7 @@ class Title_Capitalizer {
 	 * @return bool
 	 */
 	protected function is_heartbeat() {
-		return ( isset( $_POST['action'] ) && 'heartbeat' === $_POST['action' ] );
+		return ( isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] );
 	}
 
 	/**
