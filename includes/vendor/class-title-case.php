@@ -8,7 +8,7 @@ class TitleCase {
 	public function toTitleCase ($title) {
 		//remove HTML, storing it for later
 		//       HTML elements to ignore    | tags  | entities
-		$regx = '/<(code|var)[^>]*>.*?<\/\1>|<[^>]+>|&\S+;/';
+		$regx = '/<(code|var)[^>]*>.*?<\/\1>|<[^>]+>|&\S+;|(#+ )/';
 		preg_match_all ($regx, $title, $html, PREG_OFFSET_CAPTURE);
 		$title = preg_replace ($regx, '', $title);
 
@@ -26,7 +26,7 @@ class TitleCase {
 			//(never on the first word, and never if preceded by a colon)
 			$m = $i>0 && mb_substr ($title, max (0, $i-2), 1, 'UTF-8') !== ':' &&
 				!preg_match ('/[\x{2014}\x{2013}] ?/u', mb_substr ($title, max (0, $i-2), 2, 'UTF-8')) &&
-				 preg_match ('/^(a(nd?|s|t)?|b(ut|y)|en|for|i[fn]|o[fnr]|t(he|o)|vs?\.?|via|\'(s|t|ll|re|ve))[ \-]/i', $m)
+				 preg_match ('/^(a(nd?|s|t)?|b(ut|y)|en|for|i[fn]|o[fnr]|t(he|o)|vs?\.?|via)[ \-]/i', $m)
 			?	//…and convert them to lowercase
 				mb_strtolower ($m, 'UTF-8')
 
@@ -39,7 +39,8 @@ class TitleCase {
 
 			//else:	do not uppercase these cases
 			: (	preg_match ('/[\])}]/', mb_substr ($title, max (0, $i-1), 3, 'UTF-8')) ||
-				preg_match ('/[A-Z]+|&|\w+[._]\w+/u', mb_substr ($m, 1, mb_strlen ($m, 'UTF-8')-1, 'UTF-8'))
+				preg_match ('/[A-Z]+|&|\w+[._]\w+/u', mb_substr ($m, 1, mb_strlen ($m, 'UTF-8')-1, 'UTF-8')) ||
+			    preg_match( '/\'(s|t|ll|re|ve)/i', $m ) // Don't capitalize contractions
 			?	$m
 				//if all else fails, then no more fringe-cases; uppercase the word
 			:	mb_strtoupper (mb_substr ($m, 0, 1, 'UTF-8'), 'UTF-8').
