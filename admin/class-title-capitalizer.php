@@ -207,9 +207,8 @@ class Title_Capitalizer {
 		$add_post = ( 'auto-draft' === $post->post_status ) ? true : false;
 
 		// 'closedpostboxesnonce' was the only nonce I could consistently find.
-		if ( ( isset( $_POST['closedpostboxesnonce'] ) &&
-		       ! wp_verify_nonce( $_POST['closedpostboxesnonce'], 'closedpostboxes' ) ) ||
-		     ( isset( $_POST['_nonce'] ) && ! wp_verify_nonce( $_POST['_nonce'], 'heartbeat-nonce' ) )
+		if ( isset( $_POST['closedpostboxesnonce'] ) &&
+		     ! wp_verify_nonce( $_POST['closedpostboxesnonce'], 'closedpostboxes' )
 		) {
 			return false;
 		}
