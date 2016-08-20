@@ -38,7 +38,8 @@ class TitleCase {
 				//…and convert them to lowercase
 				$m = mb_strtolower( $m, 'UTF-8' );
 
-			} elseif ( //else:	brackets and other wrappers
+			} elseif (
+				//else:	brackets and other wrappers
 				preg_match( '/[\'"_{(\[‘“]/u', mb_substr( $title, max( 0, $i - 1 ), 3, 'UTF-8' ) )
 			) {
 				//convert first letter within wrapper to uppercase
