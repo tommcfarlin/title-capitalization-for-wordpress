@@ -1,11 +1,22 @@
 <?php
-//original Title Case script © John Gruber <daringfireball.net>
-//javascript port © David Gouch <individed.com>
-//PHP port of the above by Kroc Camen <camendesign.com>
-//refactor and mods for contractions and markdown headers by Andy Fragen <andy@thefragens.com>
 
+/**
+ * Class TitleCase
+ *
+ * original Title Case script © John Gruber <daringfireball.net>
+ * javascript port © David Gouch <individed.com>
+ * PHP port of the above by Kroc Camen <camendesign.com>
+ * refactor and mods for contractions and markdown headers by Andy Fragen <andy@thefragens.com>
+ */
 class TitleCase {
 
+	/**
+	 * Convert string to title case.
+	 *
+	 * @param $title
+	 *
+	 * @return mixed|string
+	 */
 	public function toTitleCase( $title ) {
 		//remove HTML, storing it for later
 		//       HTML elements to ignore    | tags  | entities
