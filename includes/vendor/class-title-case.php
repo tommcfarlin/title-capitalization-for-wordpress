@@ -37,7 +37,7 @@ class TitleCase {
 			$i = mb_strlen( substr( $title, 0, $i ), 'UTF-8' );
 
 			//try to internationalize a bit.
-			$locale       = get_locale();
+			$locale       = get_locale(); //this makes the lib WordPress specific. :(
 			$short_locale = preg_replace( '/_.*$/', '', $locale );
 
 			/**
