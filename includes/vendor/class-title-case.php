@@ -47,6 +47,9 @@ class TitleCase {
 			 */
 			$locales = json_decode( file_get_contents( __DIR__ . '/locales.json' ) );
 
+			/**
+			 * Send string to locale-based rules for capitalization.
+			 */
 			switch ( $short_locale ) {
 				case 'en': // English
 					$m = $this->english( $m, $i, $title );
