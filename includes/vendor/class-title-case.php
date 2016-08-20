@@ -71,13 +71,15 @@ class TitleCase {
 	/**
 	 * Capitalize based upon English rules.
 	 *
+	 * @access private
+	 *
 	 * @param $m string
 	 * @param $i
 	 * @param $title
 	 *
 	 * @return string
 	 */
-	protected function english( $m, $i, $title ) {
+	private function english( $m, $i, $title ) {
 		//find words that should always be lowercase…
 		//(never on the first word, and never if preceded by a colon)
 		if (
