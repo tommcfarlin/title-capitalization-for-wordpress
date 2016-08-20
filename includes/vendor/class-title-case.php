@@ -55,7 +55,7 @@ class TitleCase {
 					$m = $this->english( $m, $i, $title );
 					break;
 				default:
-					$m = $this->english( $m, $i, $title );
+					break;
 			}
 
 			//re-splice the title with the change (`substr_replace` is not multi-byte aware)
