@@ -34,8 +34,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Load the Title Case Library (if it has not already been loaded).
-if ( ! class_exists( 'TitleCase' ) ) {
+// Load the Title_Case Library (if it has not already been loaded).
+if ( ! class_exists( 'Title_Case' ) ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/vendor/class-title-case.php' );
 }
 
@@ -54,6 +54,6 @@ add_action( 'admin_init', 'tm_title_capitalization_start' );
 function tm_title_capitalization_start() {
 
 	$plugin = new Title_Capitalization_Loader();
-	$plugin->run( new Title_Capitalizer( new TitleCase() ) );
+	$plugin->run( new Title_Capitalizer( new Title_Case() ) );
 
 }

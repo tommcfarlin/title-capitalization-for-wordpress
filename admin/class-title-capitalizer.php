@@ -31,7 +31,7 @@ class Title_Capitalizer {
 	/**
 	 * Reference to the library responsible for capitalizing its input.
 	 *
-	 * @var TitleCase
+	 * @var Title_Case
 	 */
 	protected $title_case;
 
@@ -39,10 +39,10 @@ class Title_Capitalizer {
 	 * Define a reference to the third-party library for processing the post title
 	 * and post content.
 	 *
-	 * @param  TitleCase $title_case The third-party library that correctly
-	 *                               capitalizes a given string.
+	 * @param  Title_Case $title_case The third-party library that correctly
+	 *                                capitalizes a given string.
 	 */
-	public function __construct( TitleCase $title_case ) {
+	public function __construct( Title_Case $title_case ) {
 		$this->title_case = $title_case;
 	}
 
@@ -63,7 +63,7 @@ class Title_Capitalizer {
 
 		$post = array(
 			'ID'         => $post_id,
-			'post_title' => $this->title_case->toTitleCase( get_the_title( $post_id ) ),
+			'post_title' => $this->title_case->to_title_case( get_the_title( $post_id ) ),
 		);
 
 		$this->update_post( $post, 'capitalize_post_title' );
@@ -109,13 +109,13 @@ class Title_Capitalizer {
 
 			$content = str_ireplace(
 				$matched,
-				$this->title_case->toTitleCase( $matched ),
+				$this->title_case->to_title_case( $matched ),
 				$content
 			);
 
 			$content_filtered = str_ireplace(
 				$matched,
-				$this->title_case->toTitleCase( $matched ),
+				$this->title_case->to_title_case( $matched ),
 				$content_filtered
 			);
 
