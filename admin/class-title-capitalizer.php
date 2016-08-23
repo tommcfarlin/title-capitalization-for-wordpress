@@ -181,11 +181,9 @@ class Title_Capitalizer {
 	 */
 	protected function find_markdown_headings( $content, $content_filtered ) {
 
-		$regex = "/(?<!\\S)(?:^)#(.*)(\r|\n)?/m";
-		preg_match_all( $regex, $content, $matches );
-		if ( empty( $matches[0] ) ) {
-			preg_match_all( $regex, $content_filtered, $matches );
-		}
+		$regex = "/(?<!\\S)(?:^)#+(.*)$/m";
+
+		empty( $content_filtered ) ? preg_match_all( $regex, $content, $matches ) : preg_match_all( $regex, $content_filtered, $matches );
 
 		return $matches[0];
 
