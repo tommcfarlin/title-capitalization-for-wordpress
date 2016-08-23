@@ -20,7 +20,7 @@ class TitleCase {
 	public function toTitleCase( $title ) {
 		//remove HTML, storing it for later
 		//       HTML elements to ignore    | tags  | entities
-		$regx = '/<(code|var)[^>]*>.*?<\/\1>|<[^>]+>|&\S+;|#+|\$(.* )/';
+		$regx = '/<(code|var)[^>]*>.*?<\/\1>|<[^>]+>|&\S+;|#+|\$([A-Za-z0-9_-]+)/';
 		preg_match_all( $regx, $title, $html, PREG_OFFSET_CAPTURE );
 		$title = preg_replace( $regx, '', $title );
 
