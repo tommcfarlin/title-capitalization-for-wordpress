@@ -203,7 +203,7 @@ class Title_Capitalizer {
 	protected function should_save_post( $post_id ) {
 
 		$post     = get_post( $post_id );
-		$add_post = ( 'auto-draft' === $post->post_status ) ? true : false;
+		$add_post = ( 'auto-draft' === $post->post_status && ! isset( $_POST['post_ID'] ) ) ? true : false;
 
 		// 'closedpostboxesnonce' was the only nonce I could consistently find.
 		if ( isset( $_POST['closedpostboxesnonce'] ) &&
