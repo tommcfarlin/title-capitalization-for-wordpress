@@ -20,7 +20,7 @@ class Title_Case {
 	public function to_title_case( $title ) {
 		//remove HTML, storing it for later
 		//       HTML elements to ignore    | tags  | entities
-		$regx = '/<(code|var)[^>]*>.*?<\/\1>|<[^>]+>|&\S+;|(#+ )/';
+		$regx = '/<(code|var)[^>]*>.*?<\/\1>|<[^>]+>|&\S+;|#+|\$([A-Za-z0-9_-]+)/';
 		preg_match_all( $regx, $title, $html, PREG_OFFSET_CAPTURE );
 		$title = preg_replace( $regx, '', $title );
 
@@ -115,7 +115,7 @@ class Title_Case {
 			preg_match( '/[\])}]/', mb_substr( $title, max( 0, $i - 1 ), 3, 'UTF-8' ) ) ||
 			preg_match( '/[A-Z]+|&|\w+[._]\w+/u', mb_substr( $m, 1, mb_strlen( $m, 'UTF-8' ) - 1, 'UTF-8' ) )
 		) {
-			$m = $m;
+			return $m;
 		} else {
 			//if all else fails, then no more fringe-cases; uppercase the word
 			$m = mb_strtoupper( mb_substr( $m, 0, 1, 'UTF-8' ), 'UTF-8' ) .
