@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Class TitleCase
+ * Class Title_Case
  *
  * original Title Case script © John Gruber <daringfireball.net>
  * javascript port © David Gouch <individed.com>
  * PHP port of the above by Kroc Camen <camendesign.com>
  * refactor and mods for contractions and markdown headers by Andy Fragen <andy@thefragens.com>
  */
-class TitleCase {
+class Title_Case {
 
 	/**
 	 * Convert string to title case.
@@ -17,7 +17,7 @@ class TitleCase {
 	 *
 	 * @return mixed|string
 	 */
-	public function toTitleCase( $title ) {
+	public function to_title_case( $title ) {
 		//remove HTML, storing it for later
 		//       HTML elements to ignore    | tags  | entities
 		$regx = '/<(code|var)[^>]*>.*?<\/\1>|<[^>]+>|&\S+;|(#+ )/';
